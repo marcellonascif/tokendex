@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Text, useInput, useApp, useWindowSize} from 'ink';
+import {Box, Text, useInput, useApp} from 'ink';
 import {Select} from '@inkjs/ui';
 import {isLoggedIn} from '../lib/auth.js';
 
@@ -18,7 +18,6 @@ type Props = {
 
 export function Menu({onCommand}: Props) {
 	const {exit} = useApp();
-	const {columns} = useWindowSize();
 	const [screen, setScreen] = useState<Screen>('main');
 	const loggedIn = isLoggedIn();
 
@@ -41,9 +40,9 @@ export function Menu({onCommand}: Props) {
 	});
 
 	return (
-		<Box flexDirection="column" gap={1} width={columns}>
+		<Box flexDirection="column" gap={1}>
 			{/* Header */}
-			<Box flexDirection="column" overflow="hidden" width={columns}>
+			<Box flexDirection="column" overflow="hidden">
 				<Text color="yellow">{logo}</Text>
 				<Text color="cyan" bold>
 					https://github.com/marcellonascif/tokendex
