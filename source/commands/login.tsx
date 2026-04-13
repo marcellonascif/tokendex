@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Box, Text, useInput, useApp} from 'ink';
 import {TextInput} from '@inkjs/ui';
-import {execSync} from 'child_process';
+import {spawnSync} from 'child_process';
 import {readAuth, writeAuth} from '../lib/auth.js';
 
 const supabaseUrl = 'https://dlbfntpmwnndalyivknx.supabase.co';
@@ -21,7 +21,7 @@ function openBrowser(url: string): void {
 			? 'start'
 			: 'xdg-open';
 	try {
-		execSync(`${cmd} "${url}"`);
+		spawnSync(cmd, [url]);
 	} catch {}
 }
 
@@ -29,7 +29,7 @@ type Step = 'confirm-relogin' | 'opening-browser' | 'paste-url' | 'success' | 'e
 
 export function Login() {
 	const {exit} = useApp();
-	const existing = readAuth();
+	const [existing] = useState(() => readAuth());
 
 	const [step, setStep] = useState<Step>(
 		existing ? 'confirm-relogin' : 'opening-browser',
@@ -42,6 +42,16 @@ export function Login() {
 		openBrowser(authUrl);
 		setStep('paste-url');
 	}, [step]);
+
+	useEffect(() => {
+		if (step !== 'success') return;
+		const timer = setTimeout(() => {
+			exit();
+		}, 1000);
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [step, exit]);
 
 	useInput((input) => {
 		if (step !== 'confirm-relogin') return;
@@ -57,7 +67,7 @@ export function Login() {
 		const {access_token, refresh_token, expires_at} = params;
 
 		if (!access_token || !refresh_token) {
-			setErrorMessage('Could not find access_token in URL. Please try again.');
+			setErrorMessage('Could not find required tokens in URL. Please try again.');
 			setStep('error');
 			return;
 		}
@@ -71,9 +81,6 @@ export function Login() {
 		});
 
 		setStep('success');
-		setTimeout(() => {
-			exit();
-		}, 1000);
 	}
 
 	if (step === 'confirm-relogin') {
