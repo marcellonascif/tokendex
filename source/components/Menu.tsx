@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Box, Text, useInput, useApp} from 'ink';
 import {Select} from '@inkjs/ui';
+import {isLoggedIn} from '../lib/auth.js';
 
 const logo = `  _        _                  _
  | |_ ___ | | _____ _ __   __| | _____  __
@@ -17,6 +18,7 @@ type Props = {
 export function Menu({onCommand}: Props) {
 	const {exit} = useApp();
 	const [screen, setScreen] = useState<Screen>('main');
+	const loggedIn = isLoggedIn();
 
 	useInput((input, key) => {
 		if (input.toLowerCase() === 'q') {
@@ -44,7 +46,13 @@ export function Menu({onCommand}: Props) {
 			{/* Menu */}
 			{screen === 'main' ? (
 				<Select
-					options={[{label: 'Login', value: 'login'}]}
+					key="main"
+					options={[
+						{
+							label: loggedIn ? 'Login  ✓' : 'Login',
+							value: 'login',
+						},
+					]}
 					onChange={(value) => {
 						if (value === 'login') setScreen('login-providers');
 					}}
@@ -53,6 +61,7 @@ export function Menu({onCommand}: Props) {
 				<Box flexDirection="column">
 					<Text bold>Login</Text>
 					<Select
+						key="providers"
 						options={[{label: 'GitHub', value: 'github'}]}
 						onChange={(value) => {
 							if (value === 'github') onCommand('login');
