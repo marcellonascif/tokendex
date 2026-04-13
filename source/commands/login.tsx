@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Box, Text, useApp} from 'ink';
 import {TextInput} from '@inkjs/ui';
-import {spawnSync} from 'child_process';
 import {writeAuth} from '../lib/auth.js';
 
 const supabaseUrl = 'https://dlbfntpmwnndalyivknx.supabase.co';
@@ -13,31 +12,15 @@ function parseHashFragment(url: string): Record<string, string> {
 	return Object.fromEntries(new URLSearchParams(hash).entries());
 }
 
-function openBrowser(url: string): void {
-	const cmd =
-		process.platform === 'darwin'
-			? 'open'
-			: process.platform === 'win32'
-			? 'start'
-			: 'xdg-open';
-	try {
-		spawnSync(cmd, [url]);
-	} catch {}
-}
 
-type Step = 'opening-browser' | 'paste-url' | 'success' | 'error';
+type Step = 'show-link' | 'paste-url' | 'success' | 'error';
 
 export function Login() {
 	const {exit} = useApp();
-	const [step, setStep] = useState<Step>('opening-browser');
+	const [step, setStep] = useState<Step>('show-link');
 	const [errorMessage, setErrorMessage] = useState('');
 
-	useEffect(() => {
-		if (step !== 'opening-browser') return;
-		const authUrl = `${supabaseUrl}/auth/v1/authorize?provider=github&redirect_to=http://localhost:9999/callback`;
-		openBrowser(authUrl);
-		setStep('paste-url');
-	}, [step]);
+	const authUrl = `${supabaseUrl}/auth/v1/authorize?provider=github&redirect_to=http://localhost:8080/callback`;
 
 	useEffect(() => {
 		if (step !== 'success') return;
@@ -70,18 +53,22 @@ export function Login() {
 		setStep('success');
 	}
 
-	if (step === 'opening-browser') {
-		return <Text>Opening browser...</Text>;
+	if (step === 'show-link') {
+		return (
+			<Box flexDirection="column" gap={1}>
+				<Text>Open the link below to authorize with GitHub:</Text>
+				<Text color="cyan">{authUrl}</Text>
+				<Text>After authorizing, you will be redirected to a URL. Copy that URL and press <Text bold>Enter</Text> below to continue.</Text>
+				<TextInput placeholder="" onSubmit={() => setStep('paste-url')} />
+			</Box>
+		);
 	}
 
 	if (step === 'paste-url') {
 		return (
-			<Box flexDirection="column">
-				<Text>
-					Browser opened. After authorizing with GitHub, paste the callback URL
-					here:
-				</Text>
-				<TextInput placeholder="https://..." onSubmit={handleUrlSubmit} />
+			<Box flexDirection="column" gap={1}>
+				<Text>Paste the callback URL and press <Text bold>Enter</Text>:</Text>
+				<TextInput placeholder="" onSubmit={handleUrlSubmit} />
 			</Box>
 		);
 	}
