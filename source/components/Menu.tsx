@@ -41,14 +41,12 @@ export function Menu({onCommand}: Props) {
 	return (
 		<Box flexDirection="column" gap={1}>
 			{/* Header */}
-			<Box flexDirection="row" gap={2}>
+			<Box flexDirection="column">
 				<Text color="green">{logo}</Text>
-				<Box flexDirection="column" justifyContent="flex-end">
-					<Text color="cyan" bold>
-						https://github.com/marcellonascif/tokendex
-					</Text>
-					<Text color="gray">Collect pets based on your token usage</Text>
-				</Box>
+				<Text color="cyan" bold>
+					https://github.com/marcellonascif/tokendex
+				</Text>
+				<Text color="gray">Collect pets based on your token usage</Text>
 			</Box>
 
 			{/* Menu */}
