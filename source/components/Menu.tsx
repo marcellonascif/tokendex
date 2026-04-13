@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
-import {Box, Text, useInput, useApp} from 'ink';
+import {Box, Text, useInput, useApp, useWindowSize} from 'ink';
 import {Select} from '@inkjs/ui';
 import {isLoggedIn} from '../lib/auth.js';
 
-const logo = `  _        _                  _
- | |_ ___ | | _____ _ __   __| | _____  __
- | __/ _ \\| |/ / _ \\ '_ \\ / _\` |/ _ \\ \\/ /
- | || (_) |   <  __/ | | | (_| |  __/>  <
-  \\__\\___/|_|\\_\\___|_| |_|\\__,_|\\___/_/\\_\\`;
+const logo = `████████╗ ██████╗ ██╗  ██╗███████╗███╗   ██╗██████╗ ███████╗██╗  ██╗
+╚══██╔══╝██╔═══██╗██║ ██╔╝██╔════╝████╗  ██║██╔══██╗██╔════╝╚██╗██╔╝
+   ██║   ██║   ██║█████╔╝ █████╗  ██╔██╗ ██║██║  ██║█████╗   ╚███╔╝
+   ██║   ██║   ██║██╔═██╗ ██╔══╝  ██║╚██╗██║██║  ██║██╔══╝   ██╔██╗
+   ██║   ╚██████╔╝██║  ██╗███████╗██║ ╚████║██████╔╝███████╗██╔╝ ██╗
+   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝  ╚═╝`;
 
 type Screen = 'main' | 'confirm-relogin' | 'login-providers';
 
@@ -17,6 +18,7 @@ type Props = {
 
 export function Menu({onCommand}: Props) {
 	const {exit} = useApp();
+	const {columns} = useWindowSize();
 	const [screen, setScreen] = useState<Screen>('main');
 	const loggedIn = isLoggedIn();
 
@@ -39,9 +41,9 @@ export function Menu({onCommand}: Props) {
 	});
 
 	return (
-		<Box flexDirection="column" gap={1}>
+		<Box flexDirection="column" gap={1} width={columns}>
 			{/* Header */}
-			<Box flexDirection="column" overflow="hidden">
+			<Box flexDirection="column" overflow="hidden" width={columns}>
 				<Text color="yellow">{logo}</Text>
 				<Text color="cyan" bold>
 					https://github.com/marcellonascif/tokendex

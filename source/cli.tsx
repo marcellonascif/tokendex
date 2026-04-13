@@ -23,4 +23,4 @@ const cli = meow(
 
 const command = cli.input[0];
 
-render(<App command={command} />);
+render(<App command={command} />, {alternateScreen: !command});
