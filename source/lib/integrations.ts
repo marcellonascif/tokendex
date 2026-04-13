@@ -17,6 +17,7 @@ export function detectClaudeCode(): boolean {
 }
 
 export function installClaudeCode(): void {
+	execSync('claude plugin marketplace add marcellonascif/tokendex-plugin', {stdio: 'inherit'});
 	execSync('claude plugin install tokendex', {stdio: 'inherit'});
 }
 
