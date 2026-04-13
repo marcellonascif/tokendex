@@ -7,23 +7,20 @@ import App from './app.js';
 const cli = meow(
 	`
 	Usage
-	  $ tokendex-temp
+	  $ tokendex [command]
 
-	Options
-		--name  Your name
+	Commands
+	  login   Authenticate with GitHub
 
 	Examples
-	  $ tokendex-temp --name=Jane
-	  Hello, Jane
+	  $ tokendex
+	  $ tokendex login
 `,
 	{
 		importMeta: import.meta,
-		flags: {
-			name: {
-				type: 'string',
-			},
-		},
 	},
 );
 
-render(<App name={cli.flags.name} />);
+const command = cli.input[0];
+
+render(<App command={command} />);

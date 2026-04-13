@@ -1,14 +1,19 @@
-import React from 'react';
-import {Text} from 'ink';
+import React, {useState} from 'react';
+import {Menu} from './components/Menu.js';
+import {Login} from './commands/login.js';
 
 type Props = {
-	name: string | undefined;
+	command?: string;
 };
 
-export default function App({name = 'Stranger'}: Props) {
-	return (
-		<Text>
-			Hello, <Text color="green">{name}</Text>
-		</Text>
+export default function App({command}: Props) {
+	const [activeCommand, setActiveCommand] = useState<string | undefined>(
+		command,
 	);
+
+	if (activeCommand === 'login') {
+		return <Login />;
+	}
+
+	return <Menu onCommand={(cmd) => setActiveCommand(cmd)} />;
 }
