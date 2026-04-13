@@ -1,7 +1,7 @@
 {
 	"name": "tokendex",
 	"version": "0.1.0",
-	"description": "The main tokendex product",
+	"description": "Collect pets and rewards based on your AI token usage",
 	"license": "MIT",
 	"bin": "dist/cli.js",
 	"type": "module",

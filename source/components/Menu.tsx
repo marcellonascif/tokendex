@@ -44,7 +44,7 @@ export function Menu({onCommand}: Props) {
 			<Box flexDirection="column" overflow="hidden">
 				<Text color="yellow">{logo}</Text>
 				<Text> </Text>
-				<Text color="gray">Collect pets based on your token usage</Text>
+				<Text color="gray">Collect pets and rewards based on your AI token usage</Text>
 				<Text color="cyan" bold>https://github.com/marcellonascif/tokendex</Text>
 			</Box>
 
