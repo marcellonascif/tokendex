@@ -42,8 +42,8 @@ export function Menu({onCommand}: Props) {
 	return (
 		<Box flexDirection="column" gap={1}>
 			{/* Header */}
-			<Box flexDirection="column">
-				<Text color="yellow" wrap="truncate">{logo}</Text>
+			<Box flexDirection="column" overflow="hidden">
+				<Text color="yellow">{logo}</Text>
 				<Text color="cyan" bold>
 					https://github.com/marcellonascif/tokendex
 				</Text>
