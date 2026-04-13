@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Box, Text, useInput, useApp} from 'ink';
+import {Box, Text, useApp} from 'ink';
 import {TextInput} from '@inkjs/ui';
 import {spawnSync} from 'child_process';
-import {readAuth, writeAuth} from '../lib/auth.js';
+import {writeAuth} from '../lib/auth.js';
 
 const supabaseUrl = 'https://dlbfntpmwnndalyivknx.supabase.co';
 
@@ -25,15 +25,11 @@ function openBrowser(url: string): void {
 	} catch {}
 }
 
-type Step = 'confirm-relogin' | 'opening-browser' | 'paste-url' | 'success' | 'error';
+type Step = 'opening-browser' | 'paste-url' | 'success' | 'error';
 
 export function Login() {
 	const {exit} = useApp();
-	const [existing] = useState(() => readAuth());
-
-	const [step, setStep] = useState<Step>(
-		existing ? 'confirm-relogin' : 'opening-browser',
-	);
+	const [step, setStep] = useState<Step>('opening-browser');
 	const [errorMessage, setErrorMessage] = useState('');
 
 	useEffect(() => {
@@ -52,15 +48,6 @@ export function Login() {
 			clearTimeout(timer);
 		};
 	}, [step, exit]);
-
-	useInput((input) => {
-		if (step !== 'confirm-relogin') return;
-		if (input.toLowerCase() === 'y') {
-			setStep('opening-browser');
-		} else {
-			exit();
-		}
-	});
 
 	function handleUrlSubmit(url: string) {
 		const params = parseHashFragment(url);
@@ -81,14 +68,6 @@ export function Login() {
 		});
 
 		setStep('success');
-	}
-
-	if (step === 'confirm-relogin') {
-		return (
-			<Box flexDirection="column">
-				<Text>You are already logged in. Login again? (y/N)</Text>
-			</Box>
-		);
 	}
 
 	if (step === 'opening-browser') {

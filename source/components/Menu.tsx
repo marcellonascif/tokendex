@@ -9,7 +9,7 @@ const logo = `  _        _                  _
  | || (_) |   <  __/ | | | (_| |  __/>  <
   \\__\\___/|_|\\_\\___|_| |_|\\__,_|\\___/_/\\_\\`;
 
-type Screen = 'main' | 'login-providers';
+type Screen = 'main' | 'confirm-relogin' | 'login-providers';
 
 type Props = {
 	onCommand: (command: string) => void;
@@ -28,6 +28,14 @@ export function Menu({onCommand}: Props) {
 		if (key.backspace || key.delete) {
 			setScreen('main');
 		}
+
+		if (screen === 'confirm-relogin') {
+			if (input.toLowerCase() === 'y') {
+				setScreen('login-providers');
+			} else if (key.return || input.toLowerCase() === 'n') {
+				setScreen('main');
+			}
+		}
 	});
 
 	return (
@@ -44,20 +52,23 @@ export function Menu({onCommand}: Props) {
 			</Box>
 
 			{/* Menu */}
-			{screen === 'main' ? (
+			{screen === 'main' && (
 				<Select
 					key="main"
-					options={[
-						{
-							label: loggedIn ? 'Login  ✓' : 'Login',
-							value: 'login',
-						},
-					]}
+					options={[{label: loggedIn ? 'Login  ✓' : 'Login', value: 'login'}]}
 					onChange={(value) => {
-						if (value === 'login') setScreen('login-providers');
+						if (value === 'login') {
+							setScreen(loggedIn ? 'confirm-relogin' : 'login-providers');
+						}
 					}}
 				/>
-			) : (
+			)}
+
+			{screen === 'confirm-relogin' && (
+				<Text>You are already logged in. Login again? (y/N)</Text>
+			)}
+
+			{screen === 'login-providers' && (
 				<Box flexDirection="column">
 					<Text bold>Login</Text>
 					<Select
