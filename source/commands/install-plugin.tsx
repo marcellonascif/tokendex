@@ -3,7 +3,7 @@ import {Box, Text, useInput, useApp} from 'ink';
 import {MultiSelect, Spinner} from '@inkjs/ui';
 import {integrations, type Integration} from '../lib/integrations.js';
 
-type ToolStatus = 'idle' | 'running' | 'success' | 'not-found' | 'error';
+type ToolStatus = 'running' | 'success' | 'not-found' | 'error';
 
 type ToolResult = {
 	integration: Integration;
@@ -18,28 +18,29 @@ export function InstallPlugin() {
 	const [selectedIds, setSelectedIds] = useState<string[]>([]);
 	const [results, setResults] = useState<ToolResult[]>([]);
 
+	const allDone =
+		results.length > 0 &&
+		results.every((r) => r.status !== 'running');
+
 	useInput((input, key) => {
-		if (input.toLowerCase() === 'q') {
+		if (input.toLowerCase() === 'q' && (screen === 'select' || allDone)) {
 			exit();
 		}
 
 		if ((key.backspace || key.delete) && screen === 'select') {
-			// Signal to parent to go back to menu
 			exit();
 		}
 	});
 
 	useEffect(() => {
-		if (screen !== 'results') return;
+		if (screen !== 'results' || selectedIds.length === 0) return;
 
 		const selected = integrations.filter((i) => selectedIds.includes(i.id));
 
-		// Initialize all as running
 		setResults(selected.map((integration) => ({integration, status: 'running'})));
 
-		// Run each concurrently
-		for (const integration of selected) {
-			void (async () => {
+		setTimeout(() => {
+			for (const integration of selected) {
 				const detected = integration.detect();
 
 				if (!detected) {
@@ -50,7 +51,7 @@ export function InstallPlugin() {
 								: r,
 						),
 					);
-					return;
+					continue;
 				}
 
 				try {
@@ -71,13 +72,9 @@ export function InstallPlugin() {
 						),
 					);
 				}
-			})();
-		}
+			}
+		}, 0);
 	}, [screen, selectedIds]);
-
-	const allDone =
-		results.length > 0 &&
-		results.every((r) => r.status !== 'running' && r.status !== 'idle');
 
 	if (screen === 'select') {
 		return (
