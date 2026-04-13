@@ -1,4 +1,4 @@
-# tokendex-cli — Design Spec
+# tokendex — Design Spec
 
 **Date:** 2026-04-13
 
@@ -6,7 +6,9 @@
 
 ## Overview
 
-Official CLI for tokendex. Runs directly in the terminal, without going through the model. Responsible for all user interaction with tokendex outside of Claude Code.
+The main tokendex product. A CLI where the user manages everything — authentication, pets, wallet, and future features. Runs directly in the terminal, without going through the model.
+
+Plugins (Claude Code, VS Code, Antigravity, etc.) are connectors that integrate tokendex into specific environments. They depend on this CLI and the local files it manages.
 
 ---
 
@@ -17,14 +19,14 @@ Official CLI for tokendex. Runs directly in the terminal, without going through 
 - **TUI:** `ink` + `ink-ui` (Select, Spinner, TextInput components)
 - **Args parsing:** `meow`
 - **Dev/Build:** `tsx` for development, `tsc` for build
-- **Published as:** `tokendex-cli` on npm
+- **Published as:** `tokendex` on npm
 
 ---
 
 ## Project Structure
 
 ```
-tokendex-cli/
+tokendex/
 ├── bin/
 │   └── tokendex.js          # shebang entrypoint, calls src/cli.tsx
 ├── src/
