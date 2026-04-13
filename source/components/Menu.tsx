@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Text} from 'ink';
+import {Box, Text, useInput, useApp} from 'ink';
 import {Select} from '@inkjs/ui';
 
 const logo = `  _        _                  _
@@ -15,7 +15,18 @@ type Props = {
 };
 
 export function Menu({onCommand}: Props) {
+	const {exit} = useApp();
 	const [screen, setScreen] = useState<Screen>('main');
+
+	useInput((input, key) => {
+		if (input.toLowerCase() === 'q') {
+			exit();
+		}
+
+		if (key.backspace || key.delete) {
+			setScreen('main');
+		}
+	});
 
 	return (
 		<Box flexDirection="column" gap={1}>
@@ -51,7 +62,7 @@ export function Menu({onCommand}: Props) {
 			)}
 
 			{/* Footer */}
-			<Text color="gray">↑↓ Navigate  |  Enter Select  |  Q Quit</Text>
+			<Text color="gray">↑↓: Navigate  |  Enter: Select  |  ⌫: Back  |  Q: Quit</Text>
 		</Box>
 	);
 }
