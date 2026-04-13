@@ -52,10 +52,17 @@ export function Menu({onCommand}: Props) {
 			{screen === 'main' && (
 				<Select
 					key="main"
-					options={[{label: loggedIn ? 'Login  ✓' : 'Login', value: 'login'}]}
+					options={[
+						{label: loggedIn ? 'Login  ✓' : 'Login', value: 'login'},
+						{label: 'Install plugin', value: 'install-plugin'},
+					]}
 					onChange={(value) => {
 						if (value === 'login') {
 							setScreen(loggedIn ? 'confirm-relogin' : 'login-providers');
+						}
+
+						if (value === 'install-plugin') {
+							onCommand('install-plugin');
 						}
 					}}
 				/>
