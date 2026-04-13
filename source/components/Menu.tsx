@@ -3,10 +3,11 @@ import {Box, Text, useInput, useApp} from 'ink';
 import {Select} from '@inkjs/ui';
 import {isLoggedIn} from '../lib/auth.js';
 
-const logo = `  _       _               _
- | |_ ___| |_____ _ _  __| |_____ __
- |  _/ _ \\ / / -_) ' \\/ _\` / -_) \\ /
-  \\__\\___/_\\_\\___|_||_\\__,_\\___/_\\_\\`;
+const logo = `  _        _                  _
+ | |_ ___ | | _____ _ __   __| | _____  __
+ | __/ _ \\| |/ / _ \\ '_ \\ / _\` |/ _ \\ \\/ /
+ | || (_) |   <  __/ | | | (_| |  __/>  <
+  \\__\\___/|_|\\_\\___|_| |_|\\__,_|\\___/_/\\_\\`;
 
 type Screen = 'main' | 'confirm-relogin' | 'login-providers';
 
