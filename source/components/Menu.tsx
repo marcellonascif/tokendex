@@ -43,10 +43,8 @@ export function Menu({onCommand}: Props) {
 			{/* Header */}
 			<Box flexDirection="column" overflow="hidden">
 				<Text color="yellow">{logo}</Text>
-				<Text color="cyan" bold>
-					https://github.com/marcellonascif/tokendex
-				</Text>
 				<Text color="gray">Collect pets based on your token usage</Text>
+				<Text color="cyan" bold>https://github.com/marcellonascif/tokendex</Text>
 			</Box>
 
 			{/* Menu */}
