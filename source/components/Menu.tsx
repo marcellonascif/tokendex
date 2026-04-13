@@ -3,11 +3,10 @@ import {Box, Text, useInput, useApp} from 'ink';
 import {Select} from '@inkjs/ui';
 import {isLoggedIn} from '../lib/auth.js';
 
-const logo = `  _        _                  _
- | |_ ___ | | _____ _ __   __| | _____  __
- | __/ _ \\| |/ / _ \\ '_ \\ / _\` |/ _ \\ \\/ /
- | || (_) |   <  __/ | | | (_| |  __/>  <
-  \\__\\___/|_|\\_\\___|_| |_|\\__,_|\\___/_/\\_\\`;
+const logo = `  _       _               _
+ | |_ ___| |_____ _ _  __| |_____ __
+ |  _/ _ \\ / / -_) ' \\/ _\` / -_) \\ /
+  \\__\\___/_\\_\\___|_||_\\__,_\\___/_\\_\\`;
 
 type Screen = 'main' | 'confirm-relogin' | 'login-providers';
 
@@ -42,7 +41,7 @@ export function Menu({onCommand}: Props) {
 		<Box flexDirection="column" gap={1}>
 			{/* Header */}
 			<Box flexDirection="column">
-				<Text color="green">{logo}</Text>
+				<Text color="green" wrap="truncate">{logo}</Text>
 				<Text color="cyan" bold>
 					https://github.com/marcellonascif/tokendex
 				</Text>
