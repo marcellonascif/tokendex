@@ -11,10 +11,12 @@ const cli = meow(
 
 	Commands
 	  login   Authenticate with GitHub
+	  setup   Install tokendex integrations
 
 	Examples
 	  $ tokendex
 	  $ tokendex login
+	  $ tokendex setup
 `,
 	{
 		importMeta: import.meta,

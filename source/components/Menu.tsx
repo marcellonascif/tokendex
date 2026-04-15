@@ -54,15 +54,15 @@ export function Menu({onCommand}: Props) {
 					key="main"
 					options={[
 						{label: loggedIn ? 'Login  ✓' : 'Login', value: 'login'},
-						{label: 'Install plugin', value: 'install-plugin'},
+						{label: 'Setup', value: 'setup'},
 					]}
 					onChange={(value) => {
 						if (value === 'login') {
 							setScreen(loggedIn ? 'confirm-relogin' : 'login-providers');
 						}
 
-						if (value === 'install-plugin') {
-							onCommand('install-plugin');
+						if (value === 'setup') {
+							onCommand('setup');
 						}
 					}}
 				/>

@@ -79,7 +79,7 @@ export function InstallPlugin() {
 	if (screen === 'select') {
 		return (
 			<Box flexDirection="column" gap={1}>
-				<Text bold>Install plugin</Text>
+				<Text bold>Setup</Text>
 				<MultiSelect
 					options={integrations.map((i) => ({label: i.label, value: i.id}))}
 					onSubmit={(values) => {
@@ -95,7 +95,7 @@ export function InstallPlugin() {
 
 	return (
 		<Box flexDirection="column" gap={1}>
-			<Text bold>Install plugin</Text>
+			<Text bold>Setup</Text>
 			<Box flexDirection="column" gap={1}>
 				{results.map((r) => (
 					<Box key={r.integration.id} flexDirection="column">

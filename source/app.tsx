@@ -16,7 +16,7 @@ export default function App({command}: Props) {
 		return <Login />;
 	}
 
-	if (activeCommand === 'install-plugin') {
+	if (activeCommand === 'setup') {
 		return <InstallPlugin />;
 	}
 
