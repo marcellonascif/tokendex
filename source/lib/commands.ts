@@ -9,8 +9,16 @@ export type Command = {
 	component: React.FC;
 };
 
+function toId(label: string): string {
+	return label.toLowerCase().split(' ').join('-');
+}
+
+function command(label: string, component: React.FC): Command {
+	return {id: toId(label), label, component};
+}
+
 export const commands: Command[] = [
-	{id: 'login', label: 'Login', component: Login},
-	{id: 'setup', label: 'Setup', component: InstallPlugin},
-	{id: 'uninstall', label: 'Uninstall', component: Uninstall},
+	command('Login', Login),
+	command('Install plugin', InstallPlugin),
+	command('Uninstall plugin', Uninstall),
 ];
