@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Box, Text, useInput, useApp} from 'ink';
-import {Select} from '@inkjs/ui';
-import {isLoggedIn} from '../lib/auth.js';
 import {commands} from '../lib/commands.js';
 import {Footer} from './Footer.js';
+import {SingleSelect} from './SingleSelect.js';
+import {StatusDot} from './StatusDot.js';
 
 const logo = `  _        _                  _
  | |_ ___ | | _____ _ __   __| | _____  __
@@ -11,16 +11,16 @@ const logo = `  _        _                  _
  | || (_) |   <  __/ | | | (_| |  __/>  <
   \\__\\___/|_|\\_\\___|_| |_|\\__,_|\\___/_/\\_\\`;
 
-type Screen = 'main' | 'confirm-relogin' | 'login-providers';
+type Screen = 'main' | 'confirm-relogin';
 
 type Props = {
+	loggedIn: boolean;
 	onCommand: (command: string) => void;
 };
 
-export function Menu({onCommand}: Props) {
+export function Menu({loggedIn, onCommand}: Props) {
 	const {exit} = useApp();
 	const [screen, setScreen] = useState<Screen>('main');
-	const loggedIn = isLoggedIn();
 
 	useInput((input, key) => {
 		if (input.toLowerCase() === 'q') {
@@ -29,14 +29,10 @@ export function Menu({onCommand}: Props) {
 
 		if (screen === 'confirm-relogin') {
 			if (key.return) {
-				setScreen('login-providers');
+				onCommand('login');
 			} else if (key.backspace || key.delete) {
 				setScreen('main');
 			}
-		}
-
-		if (screen === 'login-providers' && (key.backspace || key.delete)) {
-			setScreen('main');
 		}
 	});
 
@@ -52,15 +48,15 @@ export function Menu({onCommand}: Props) {
 
 			{/* Menu */}
 			{screen === 'main' && (
-				<Select
-					key="main"
+				<SingleSelect
 					options={commands.map((c) => ({
-						label: c.id === 'login' && loggedIn ? `${c.label}  ✓` : c.label,
+						label: c.label,
 						value: c.id,
+						suffix: c.id === 'login' ? <StatusDot active={loggedIn} /> : undefined,
 					}))}
 					onChange={(value) => {
-						if (value === 'login') {
-							setScreen(loggedIn ? 'confirm-relogin' : 'login-providers');
+						if (value === 'login' && loggedIn) {
+							setScreen('confirm-relogin');
 							return;
 						}
 
@@ -71,19 +67,6 @@ export function Menu({onCommand}: Props) {
 
 			{screen === 'confirm-relogin' && (
 				<Text>You are already logged in. Login again?</Text>
-			)}
-
-			{screen === 'login-providers' && (
-				<Box flexDirection="column">
-					<Text bold>Login</Text>
-					<Select
-						key="providers"
-						options={[{label: 'GitHub', value: 'github'}]}
-						onChange={(value) => {
-							if (value === 'github') onCommand('login');
-						}}
-					/>
-				</Box>
 			)}
 
 			{/* Footer */}

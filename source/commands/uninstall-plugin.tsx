@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Text, useInput, useApp} from 'ink';
-import {MultiSelect, Spinner} from '@inkjs/ui';
+import {Spinner} from '@inkjs/ui';
+import {MultiSelect} from '../components/MultiSelect.js';
 import {integrations, type Integration} from '../lib/integrations.js';
 import {type CommandProps} from '../lib/commands.js';
 import {Footer} from '../components/Footer.js';
@@ -14,7 +15,7 @@ type ToolResult = {
 
 type Screen = 'select' | 'results';
 
-export function UninstallPlugin({onBack}: CommandProps) {
+export function UninstallPlugin({title, onBack}: CommandProps) {
 	const {exit} = useApp();
 	const [screen, setScreen] = useState<Screen>('select');
 	const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -80,7 +81,7 @@ export function UninstallPlugin({onBack}: CommandProps) {
 	if (screen === 'select') {
 		return (
 			<Box flexDirection="column" gap={1}>
-				<Text bold>Uninstall</Text>
+				<Text bold>{title}</Text>
 				<MultiSelect
 					options={integrations.map((i) => ({label: i.label, value: i.id}))}
 					onSubmit={(values) => {
@@ -96,7 +97,7 @@ export function UninstallPlugin({onBack}: CommandProps) {
 
 	return (
 		<Box flexDirection="column" gap={1}>
-			<Text bold>Uninstall</Text>
+			<Text bold>{title}</Text>
 			<Box flexDirection="column" gap={1}>
 				{results.map((r) => (
 					<Box key={r.integration.id} flexDirection="column">

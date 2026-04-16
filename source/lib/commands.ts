@@ -4,7 +4,8 @@ import {InstallPlugin} from '../commands/install-plugin.js';
 import {UninstallPlugin} from '../commands/uninstall-plugin.js';
 
 export type CommandProps = {
-	onBack: () => void;
+	title: string;
+	onBack: (loggedIn?: boolean) => void;
 };
 
 export type Command = {
