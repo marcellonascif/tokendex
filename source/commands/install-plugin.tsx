@@ -3,6 +3,7 @@ import {Box, Text, useInput, useApp} from 'ink';
 import {MultiSelect, Spinner} from '@inkjs/ui';
 import {integrations, type Integration} from '../lib/integrations.js';
 import {type CommandProps} from '../lib/commands.js';
+import {Footer} from '../components/Footer.js';
 
 type ToolStatus = 'running' | 'success' | 'not-found' | 'error';
 
@@ -89,7 +90,7 @@ export function InstallPlugin({onBack}: CommandProps) {
 						setScreen('results');
 					}}
 				/>
-				<Text color="gray">Space: toggle  |  Enter: install  |  ⌫: back</Text>
+				<Footer hints={['Space: toggle', 'Enter: install', '⌫: Back', 'Q: Quit']} />
 			</Box>
 		);
 	}
@@ -114,7 +115,7 @@ export function InstallPlugin({onBack}: CommandProps) {
 					</Box>
 				))}
 			</Box>
-			{allDone && <Text color="gray">⌫: back  |  Q: quit</Text>}
+			{allDone && <Footer hints={['⌫: Back', 'Q: Quit']} />}
 		</Box>
 	);
 }

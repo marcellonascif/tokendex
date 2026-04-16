@@ -3,6 +3,7 @@ import {Box, Text, useInput, useApp} from 'ink';
 import {Select} from '@inkjs/ui';
 import {isLoggedIn} from '../lib/auth.js';
 import {commands} from '../lib/commands.js';
+import {Footer} from './Footer.js';
 
 const logo = `  _        _                  _
  | |_ ___ | | _____ _ __   __| | _____  __
@@ -87,8 +88,8 @@ export function Menu({onCommand}: Props) {
 
 			{/* Footer */}
 			{screen === 'main'
-				? <Text color="gray">↑↓: Navigate  |  Enter: Select  |  Q: Quit</Text>
-				: <Text color="gray">Enter: Confirm  |  ⌫: Back  |  Q: Quit</Text>
+				? <Footer hints={['↑↓: Navigate', 'Enter: Select', 'Q: Quit']} />
+				: <Footer hints={['Enter: Confirm', '⌫: Back', 'Q: Quit']} />
 			}
 		</Box>
 	);
