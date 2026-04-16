@@ -10,13 +10,15 @@ const cli = meow(
 	  $ tokendex [command]
 
 	Commands
-	  login   Authenticate with GitHub
-	  setup   Install tokendex integrations
+	  login      Authenticate with GitHub
+	  setup      Install tokendex integrations
+	  uninstall  Remove tokendex integrations
 
 	Examples
 	  $ tokendex
 	  $ tokendex login
 	  $ tokendex setup
+	  $ tokendex uninstall
 `,
 	{
 		importMeta: import.meta,

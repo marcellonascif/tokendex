@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Box, Text, useInput, useApp} from 'ink';
 import {Select} from '@inkjs/ui';
 import {isLoggedIn} from '../lib/auth.js';
+import {commands} from '../lib/commands.js';
 
 const logo = `  _        _                  _
  | |_ ___ | | _____ _ __   __| | _____  __
@@ -52,18 +53,17 @@ export function Menu({onCommand}: Props) {
 			{screen === 'main' && (
 				<Select
 					key="main"
-					options={[
-						{label: loggedIn ? 'Login  ✓' : 'Login', value: 'login'},
-						{label: 'Setup', value: 'setup'},
-					]}
+					options={commands.map((c) => ({
+						label: c.id === 'login' && loggedIn ? `${c.label}  ✓` : c.label,
+						value: c.id,
+					}))}
 					onChange={(value) => {
 						if (value === 'login') {
 							setScreen(loggedIn ? 'confirm-relogin' : 'login-providers');
+							return;
 						}
 
-						if (value === 'setup') {
-							onCommand('setup');
-						}
+						onCommand(value);
 					}}
 				/>
 			)}
