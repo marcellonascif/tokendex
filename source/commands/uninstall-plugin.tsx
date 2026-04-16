@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, Text, useInput, useApp} from 'ink';
 import {MultiSelect, Spinner} from '@inkjs/ui';
 import {integrations, type Integration} from '../lib/integrations.js';
+import {type CommandProps} from '../lib/commands.js';
 
 type ToolStatus = 'running' | 'success' | 'not-found' | 'error';
 
@@ -12,7 +13,7 @@ type ToolResult = {
 
 type Screen = 'select' | 'results';
 
-export function Uninstall() {
+export function UninstallPlugin({onBack}: CommandProps) {
 	const {exit} = useApp();
 	const [screen, setScreen] = useState<Screen>('select');
 	const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -26,8 +27,8 @@ export function Uninstall() {
 			exit();
 		}
 
-		if ((key.backspace || key.delete) && screen === 'select') {
-			exit();
+		if ((key.backspace || key.delete) && (screen === 'select' || allDone)) {
+			onBack();
 		}
 	});
 

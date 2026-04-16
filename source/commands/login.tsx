@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Box, Text, useApp} from 'ink';
+import {Box, Text, useApp, useInput} from 'ink';
 import {TextInput} from '@inkjs/ui';
 import {writeAuth} from '../lib/auth.js';
+import {type CommandProps} from '../lib/commands.js';
 
 const supabaseUrl = 'https://dlbfntpmwnndalyivknx.supabase.co';
 
@@ -15,12 +16,18 @@ function parseHashFragment(url: string): Record<string, string> {
 
 type Step = 'show-link' | 'paste-url' | 'success' | 'error';
 
-export function Login() {
+export function Login({onBack}: CommandProps) {
 	const {exit} = useApp();
 	const [step, setStep] = useState<Step>('show-link');
 	const [errorMessage, setErrorMessage] = useState('');
 
 	const authUrl = `${supabaseUrl}/auth/v1/authorize?provider=github&redirect_to=http://localhost:8080/callback`;
+
+	useInput((_input, key) => {
+		if (key.backspace || key.delete) {
+			onBack();
+		}
+	});
 
 	useEffect(() => {
 		if (step !== 'success') return;

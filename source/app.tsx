@@ -12,7 +12,7 @@ export default function App({command}: Props) {
 	const active = commands.find((c) => c.id === activeCommand);
 
 	if (active) {
-		return <active.component />;
+		return <active.component onBack={() => setActiveCommand(undefined)} />;
 	}
 
 	return <Menu onCommand={(cmd) => setActiveCommand(cmd)} />;
