@@ -26,16 +26,16 @@ export function Menu({onCommand}: Props) {
 			exit();
 		}
 
-		if (key.backspace || key.delete) {
-			setScreen('main');
-		}
-
 		if (screen === 'confirm-relogin') {
-			if (input.toLowerCase() === 'y') {
+			if (key.return) {
 				setScreen('login-providers');
-			} else if (key.return || input.toLowerCase() === 'n') {
+			} else if (key.backspace || key.delete) {
 				setScreen('main');
 			}
+		}
+
+		if (screen === 'login-providers' && (key.backspace || key.delete)) {
+			setScreen('main');
 		}
 	});
 
@@ -69,7 +69,7 @@ export function Menu({onCommand}: Props) {
 			)}
 
 			{screen === 'confirm-relogin' && (
-				<Text>You are already logged in. Login again? (y/N)</Text>
+				<Text>You are already logged in. Login again?</Text>
 			)}
 
 			{screen === 'login-providers' && (
@@ -86,7 +86,10 @@ export function Menu({onCommand}: Props) {
 			)}
 
 			{/* Footer */}
-			<Text color="gray">↑↓: Navigate  |  Enter: Select  |  ⌫: Back  |  Q: Quit</Text>
+			{screen === 'main'
+				? <Text color="gray">↑↓: Navigate  |  Enter: Select  |  Q: Quit</Text>
+				: <Text color="gray">Enter: Confirm  |  ⌫: Back  |  Q: Quit</Text>
+			}
 		</Box>
 	);
 }
